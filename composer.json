@@ -1,0 +1,30 @@
+{
+    "name": "opencompanyapp/ai-tool-mermaid",
+    "description": "Mermaid diagram rendering AI tool for OpenCompany — flowcharts, sequence diagrams, ER diagrams, and more as PNG images.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "OpenCompany",
+            "homepage": "https://github.com/OpenCompanyApp"
+        }
+    ],
+    "keywords": ["laravel", "ai", "tools", "mermaid", "diagrams", "opencompany"],
+    "require": {
+        "php": "^8.2",
+        "opencompanyapp/integration-core": "^2.0 || @dev",
+        "laravel/ai": "^0.1",
+        "illuminate/support": "^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenCompany\\AiToolMermaid\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "OpenCompany\\AiToolMermaid\\AiToolMermaidServiceProvider"
+            ]
+        }
+    }
+}
