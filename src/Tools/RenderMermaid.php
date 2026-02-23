@@ -45,7 +45,7 @@ DESC;
     {
         $syntax = trim($request['syntax'] ?? '');
         if (empty($syntax)) {
-            return 'Error: Mermaid syntax is required.';
+            return 'Error: Mermaid syntax is required. Pass your diagram code in the "syntax" parameter.';
         }
 
         $title = $request['title'] ?? 'Diagram';
