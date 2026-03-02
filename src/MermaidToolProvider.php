@@ -4,6 +4,7 @@ namespace OpenCompany\AiToolMermaid;
 
 use Laravel\Ai\Contracts\Tool;
 use OpenCompany\AiToolMermaid\Tools\RenderMermaid;
+use OpenCompany\IntegrationCore\Contracts\AgentFileStorage;
 use OpenCompany\IntegrationCore\Contracts\ToolProvider;
 
 class MermaidToolProvider implements ToolProvider
@@ -43,6 +44,12 @@ class MermaidToolProvider implements ToolProvider
 
     public function createTool(string $class, array $context = []): Tool
     {
-        return new $class(app(MermaidService::class));
+        $fileStorage = app()->bound(AgentFileStorage::class) ? app(AgentFileStorage::class) : null;
+
+        return new $class(
+            app(MermaidService::class),
+            $fileStorage,
+            $context['agent'] ?? null,
+        );
     }
 }

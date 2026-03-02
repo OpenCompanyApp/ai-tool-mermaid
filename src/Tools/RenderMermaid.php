@@ -3,14 +3,18 @@
 namespace OpenCompany\AiToolMermaid\Tools;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
+use Illuminate\Support\Str;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
 use OpenCompany\AiToolMermaid\MermaidService;
+use OpenCompany\IntegrationCore\Contracts\AgentFileStorage;
 
 class RenderMermaid implements Tool
 {
     public function __construct(
         private MermaidService $mermaidService,
+        private ?AgentFileStorage $fileStorage = null,
+        private ?object $agent = null,
     ) {}
 
     public function description(): string
@@ -58,6 +62,14 @@ DESC;
         }
 
         try {
+            if ($this->fileStorage && $this->agent) {
+                $bytes = $this->mermaidService->renderToBytes($syntax, $width, $theme);
+                $filename = Str::uuid()->toString() . '.png';
+                $result = $this->fileStorage->saveFile($this->agent, $filename, $bytes, 'image/png', 'mermaid');
+
+                return "![{$title}]({$result['url']})";
+            }
+
             $url = $this->mermaidService->render($syntax, $width, $theme);
 
             return "![{$title}]({$url})";
